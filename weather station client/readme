@@ -1,10 +1,14 @@
-Low-Cost Weather station with Lora Communication
+Weather station client // Low-Cost // with Lora Communication
+Unparallel Innovation, Portugal
+
+Model architecture
+*****************************************************************
+* Sensors —> WeatherShield <——> Feather <——> LoRa Communication *
+*****************************************************************
+
+This source code is part of low cost weather station, based on the Adafruit feather that communicates with any LoRa intermediate gateway node. With expert level architecture, the challenge here is integrate a set of feedbacks available to IOT cloud connectivity too post-processing received data, whose transmission is carried out from LoRa bi-directional communication as part of an infrastructure and low cost technology, with the challenge of representing a low cost technologic long range communication, developing a light and scalable platform with low or zero energy resources.
+
+Below you can see a step-by-step tutorial, a simple user guide, how to use this source code to work with your weather station:
 
 
 
-
-This document aims to synthesize the design of a low cost weather station, based on the Adafruit feather that communicates with any LoRa intermediate gateway node. It describes the creation of a vigilant weather supervision, composed by multi-tech sensors to being part of the IOT station with LoRa network integration.
-
-With expert level architecture, the challenge here is integrate a set of feedbacks available to IOT cloud connectivity too post-processing received data, whose transmission is carried out from LoRa bi-directional communication as part of an infrastructure and low cost technology, with the challenge of representing a low cost technologic long range communication, developing a light and scalable platform with low or zero energy resources.
-
-Nowadays there are many advanced and well-integrated weather station. Part of this is developing an IoT solution that could be qualified as "low-cost" built with LoRa radio. In order to decrease costs, we improve this project with cheap devices, radios and LoRa Gateways, who satisfy small to medium size deployment scenario application cases.
