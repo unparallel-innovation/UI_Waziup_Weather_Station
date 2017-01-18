@@ -1,4 +1,4 @@
-LoRa Gateway
+LoRa Gateway Modifications
 ==========
 
 This document describes the modifications made from the [Low-cost LoRa gateway](https://github.com/CongducPham/LowCostLoRaGw) necessaries to the gateway be able to transmit the weather data to a thingspeak channel and the WAZIUP broker, the original code was obtained at: [https://github.com/CongducPham/LowCostLoRaGw](https://github.com/CongducPham/LowCostLoRaGw), then the lora gateway was installed with support for newCloudDesign by following these tutorials.
