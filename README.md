@@ -5,7 +5,7 @@ This board communicates with any LoRa intermediate gateway node. It describes th
 
 Within this git, you'll find two different folders:
 
-  - WAZIUP Gateway Modifications: This folder contains the scripts created so that the WAZIUP LoRa Gateway can connect to the Cloud repositoires, such as the actual WAZIUP Platform, and a ThingsSpeak channel created for this Weather data.
+  - WAZIUP Gateway Modifications: This folder contains the scripts created so that the WAZIUP LoRa Gateway can connect to the Cloud repositories, such as the actual WAZIUP Platform, and a ThingsSpeak channel created for this Weather data.
   - WAZIUP Weather Station Client: This folder contains all the source code and documentation needed to deploy a fully working WAZIUP Weather Station.
   
   

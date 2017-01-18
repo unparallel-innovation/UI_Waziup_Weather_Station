@@ -1,15 +1,15 @@
 LoRa Gateway Modifications
 ==========
 
-This document describes the modifications made from the [Low-cost LoRa gateway](https://github.com/CongducPham/LowCostLoRaGw) necessaries to the gateway be able to transmit the weather data to a thingspeak channel and the WAZIUP broker, the original code was obtained at: [https://github.com/CongducPham/LowCostLoRaGw](https://github.com/CongducPham/LowCostLoRaGw), then the lora gateway was installed with support for newCloudDesign by following these tutorials.
+This document describes the modifications made to the [WAZIUP Low-cost LoRa gateway](https://github.com/CongducPham/LowCostLoRaGw) , so that the gateway can push the weather data to two Cloud repositories, such as the actual WAZIUP Platform, and a ThingsSpeak channel created for this Weather data. The original code was obtained at: [https://github.com/CongducPham/LowCostLoRaGw](https://github.com/CongducPham/LowCostLoRaGw), then the lora gateway was installed with support for newCloudDesign by following these tutorials.
 
 [https://github.com/CongducPham/LowCostLoRaGw/blob/master/README.md](https://github.com/CongducPham/LowCostLoRaGw/blob/master/README.md)
 [https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_advanced/README.md](https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_advanced/README.md)
 [https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_advanced/new_cloud_design/README-NewCloud.md](https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_advanced/new_cloud_design/README-NewCloud.md)
 
-Now the folder lora_gateway contains files in the format *Cloud(…).py* and each one together with the cloud configuration file (*clouds.json*) tells to the gateway how to communicate with a specific cloud.
+Now the folder “WAZIUP Gateway Modifications” contains files in the format “Cloud(…).py” and each one together with the cloud configuration file (“clouds.json”, from the original LoRa Gateway) tells the gateway how to communicate with a specific cloud.
 
-The following data structure was defined in the context of WAZIUP, *“\\!TC/18.6/HU/85/LU/56/DO/7.7/AZO/87,…”* and is used to represent the communication between the sensor nodes and the gateway where data about weather parameters like Atmospheric temperature, Humidity, Barometric pressure, etc, is being received, this information is then sent to a thingspeak channel and to the WAZIUP broker, in this case the following cloud configuration files were used:
+The data structure defined in the context of WAZIUP, and shown here as an example of the Weather Station data: “\!TC/18.6/HU/85/LU/56/DO/7.7/AZO/87,…” is used to represent the data sent from the sensor nodes to the gateway. This represents weather parameters like Atmospheric temperature, Humidity, Barometric pressure, etc. After parsing this information the gateway reads the cloud configuration file (“clouds.json”), and pushes the data the ThingSpeak channel and to the WAZIUP broker. In this case the following cloud configuration files were used:
 
 
 
@@ -88,7 +88,7 @@ After adding those files to the folder lora_gateway, is necessary to reference t
 },
 (...)
 ```
-When the gateway receives weather data from the sensor nodes, it will run the scripts defined on this configuration file, and this ensures that the weather data is sent simultaneously both to the thingspeak channel and to the WAZIUP broker.
+When the WAZIUP Gateway receives weather data from the sensor nodes, it will execute the scripts defined on this configuration file, and this ensures that the weather data is sent simultaneously to both Thingspeak channel and WAZIUP Platform.
 
 
 
