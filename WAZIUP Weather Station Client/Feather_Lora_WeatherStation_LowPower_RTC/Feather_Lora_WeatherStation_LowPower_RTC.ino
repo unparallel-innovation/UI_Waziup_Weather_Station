@@ -72,7 +72,8 @@ WeatherConfig myConfigWeather;  // For Pressure sensor & Humidity sensor
 // OPERATING BAUDRATE
 // ----------------------------------------------------------------------------
 #define BAUDRATE 38400
-#define SLEEP_TIME 900    
+//#define SLEEP_TIME 900   
+#define SLEEP_TIME 30 
 // ----------------------------------------------------------------------------
 
 

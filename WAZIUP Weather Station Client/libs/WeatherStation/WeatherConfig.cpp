@@ -31,12 +31,12 @@ void WeatherConfig::calibration(){
   myHumidity.begin();
 
 
-  while (get_humidity() == 998) //Humidty sensor failed to respond
+  if (get_humidity() == 998) //Humidty sensor failed to respond
    {
      digitalWrite(LED_BUILTIN, HIGH);
      Serial.println("I2C communication to sensors is not working. Check solder connections.");
 
-     delay(2000);
+     //delay(2000);
    }
    digitalWrite(LED_BUILTIN, LOW);
 }
