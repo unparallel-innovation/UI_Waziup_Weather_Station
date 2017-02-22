@@ -8,15 +8,16 @@ Model architecture
 
 This source code is part of low cost weather station, based on the Adafruit feather that communicates with any LoRa intermediate gateway node. With same expert level architecture, the challenge here is integrate a set of feedbacks available to IOT cloud connectivity to collect data and send them to gateway like a post-processing received data, whose transmission is carried out from LoRa bi-directional communication as part of an infrastructure and low cost technology, with the challenge of representing a low cost technologic long range communication, developing a light and scalable platform with low or zero energy resources.
 
-We use this hardware list:- Adafruit Feather 32u4 RFM95 LoRa Radio with female pin headers (Product page: https://www.adafruit.com/product/3078)- Sparkfun Weather Shield with RJ11 female connectors (Product page: https://www.sparkfun.com/products/12081)- Wind and rain sensors kit (Product page: https://www.sparkfun.com/products/8942)- Antenna 868 Mhz and SMA cable
+We use this hardware list:- Adafruit Feather 32u4 RFM95 LoRa Radio with female pin headers (Product page: https://www.adafruit.com/product/3078)
+- Adafruit RTC DS3231 (Product page: https://www.adafruit.com/product/3013)- Sparkfun Weather Shield with RJ11 female connectors (Product page: https://www.sparkfun.com/products/12081)- Wind and rain sensors kit (Product page: https://www.sparkfun.com/products/8942)- Antenna 868 Mhz and SMA cable
 
 ——————————————————————————————————————————————————————————————————————————————
 GETTING, COMPILING AND INSTALLING THE SOFTWARE
 
 Below you can see a step-by-step tutorial, a simple user guide, about how to use this source code to work with your weather station:
-First of all you need to assembling the hardware, and then programming the software and tested it. To assemble the hardware we recommend first reading the document provided by Unparallel inovation, and then just follow the next steps:
-- Download the arduino IDE 1.6.6 or late.
-- Download the lib folder that has all the libraries you will need it. The featherLib library includes LoRa Communication and was builted because of feather specification. The weatherConfig library includes all necessary sensor control functions. For these libraries you will need to install by 'add .ZIP Library …’ in arduino IDE.- We recommend to use the feather_LoRa_WeatherStation.ino script. It contains the stable version for Feather board, a sample to use the sensores and output data with Lora communication. You can use this sketch as is.
+First of all you need to assembling the hardware, and then programming the software and tested it. To assemble the hardware we recommend first reading the document provided by Unparallel Inovation, and then just follow the next steps:
+- Download the Arduino IDE 1.6.6 or late.
+- Download the lib folder that has all the libraries you will need it. The “FeatherLib” library includes LoRa Communication and was builded because of feather specification. The “RTCLib” includes all the functions to communicate with the RTC and the “WeatherStation” library includes all necessary sensor control functions. For these libraries you will need to install by 'add .ZIP Library …’ in Arduino IDE.- We recommend to use the “Feather_Lora_WeatherStation_LowPower_RTC.ino” script. It contains the stable version for Feather board, a sample to use the sensores and output data with Lora communication. You can use this sketch as is.
 - For next default configuration we show what it is possible to change. Other types of default configuration, like I/O pins or other defines, steels like the way it is.
  	
 // please uncomment only 1 choice#define ETSI_EUROPE_REGULATION//#define FCC_US_REGULATION//#define SENEGAL_REGULATION// uncomment if your radio is an HopeRF RFM92W, HopeRF RFM95W, Modtronix inAir9B, NiceRF1276// or you know from the circuit diagram that output use the PABOOST line instead of the RFO line#define PABOOST// please uncomment only 1 choice#define BAND868//#define BAND900//#define BAND433
@@ -25,25 +26,16 @@ First of all you need to assembling the hardware, and then programming the softw
 - Serial monitor: You can see the sensors output and LoRa communication state if you use serial communication. Be sure to use 38400 bauds
 
 ————————————————————————————————————————————————————————————————————————————————————————
-SYSTEM RUNNING1.	Power-on the Feather. The script starts automatically when feather is powered on.2.	At the start and during its automatic sensors calibration process the GREEN leD is on
-	(take about 5 seconds). 3.	Wakes-up every 4 min, take all the measurements and send to GW.4.	At the moment of reading values of the sensors and sending a message to the LoRa gateway 
-	the blue led lights up and then:	I.	If feather does not receive acknowledge then the blue led turns off and Feather 
-		sleeps. 	II.	If feather receive acknowledge from master gateway then the blue led switch to 
-		green for 2 seconds, and feathers start sleeping.5.	When Feather sleeps all led’s are off.6.	Feather wake up after four minute (by default), take the measurements and send back to 
-	master gateway until sleeping again.
+SYSTEM RUNNING1.	Power-on the Feather. The script starts automatically when feather is powered on.2.	At the start and during its automatic sensors calibration process the green led appears on (take about 5 seconds). 3.	Wakes-up every 15 min, take all the measurements and send to GW.4.	At the moment of reading values of the sensors and sending a message to the LoRa gateway the blue led lights up and then:	I.	If feather does not receive acknowledge then the blue led turns off and Feather sleeps. 	II.	If feather receive acknowledge from master gateway then the blue led switch to green for 2 seconds, and feathers start sleeping.5.	When Feather sleeps all led’s are off.6.	Feather wake up after 15 minute (by default), take the measurements and send back to master gateway until sleeping again.
 
 ————————————————————————————————————————————————————————————————————————————————————————
-TEST WITHOUT LOWPOWER-	Sketch “feather_Lora_WeatherStation.ino”-	With radio LoRa Sleep mode policy-	Without feather low-power policy -	Wake-up’s 4 minutes at a time-	+14 dbm of power-	10 mA with radio in sleep mode-	115 mA when is active and sending-	20 mA when waiting for ACK-	10 mA average
--	Note, again, that in this case we did not realize any advanced power saving mechanisms 
-	such as putting the micro-controller in deep sleep mode or lower frequency, or performing 
-	ADC reduction, just powering off the radio module using your sleep mode. It is expected 
-	that the baseline consumption can be further decreased with more advanced power management 
-	policy. -	Can running for 1 week with four batteries 2600 mAh with this specification
-
+TEST WITHOUT LOWPOWER & WITHOUT RTC-	Sketch “Feather_Lora_WeatherStation.ino”-	With radio LoRa Sleep mode policy-	Without feather low-power policy -	Wake-up’s 15 minutes at a time-	+14 dbm of power-	10 mA with radio in sleep mode-	115 mA when is active and sending-	20 mA when waiting for ACK
+-	In this case we didn’t realize any advanced power saving mechanisms such as putting the micro-controller in deep sleep mode or lower frequency, or performing ADC reduction, just powering off the radio module using your sleep mode. -	It’s expected that the baseline consumption can be further decreased with more advanced power management policy. 
 ——————————————————————————————————————————————————————————————————————————————————————————
-TEST WITH LOWPOWER-	Sketchs “feather_Lora_WeatherStation_lowpower.ino”-	With radio LoRa Sleep mode policy-	With feather low-power policy -	Wake-up’s 4 minutes at a time-	+14 dbm of power-	1 mA with radio in sleep mode and feather too-	120 mA when is active and sending-	20 mA when waiting for ACK-	1 mA average
--	After removing the energy consumed by the feather, we found that an entire cycle for data 
-	acquisition, encoding and transmission consumes about 120 mA.-	The largest consumed energy part on the system comes from weather shield (about 80% of 
-	then). The receiving communication actually consumes less than half that amount of energy.-	Can running for 10 weeks with four batteries AA 2600 mAh with this specification
--	In this case, the sleeping intervals are not being respected, this is because the 
-	relationship between the sensor interrupts and lowPower has not yet been resolved, and the whole system wakes up at the moment an interrupt occurs.
+TEST WITH LOWPOWER & WITHOUT RTC-	Sketch “Feather_Lora_WeatherStation_LowPower.ino””-	With radio LoRa Sleep mode policy-	With feather low-power policy -	Wake-up’s 15 minutes at a time-	+14 dbm of power-	7.60mA with radio in sleep mode and feather too-	118mA when is active and sending-	24mA when waiting for ACK-	8.23 mA average
+-	After removing the energy consumed by the feather, we found that an entire cycle for data acquisition, encoding and transmission consumes about 120mA.-	The largest consumed energy part on the system comes from weather shield (about 80% of then). The receiving communication actually consumes less than half that amount of energy.
+-	In this case, you can see that the sleeping intervals aren’t being respected. This is because the relationship between the sensor interrupts and LowPower hasn’t yet been resolved, and the whole system wakes up at the moment an interrupt occurs. 
+——————————————————————————————————————————————————————————————————————————————————————————
+TEST WITH LOWPOWER & WITH RTC-	Sketch “Feather_Lora_WeatherStation_LowPower.ino””-	With radio LoRa Sleep mode policy-	With feather low-power policy -	Wake-up’s 15 minutes at a time-	+14 dbm of power-	0.25mA with radio in sleep mode and feather too-	120mA when is active and sending-	23mA when waiting for ACK-	0.80 mA average
+-	By putting the micro-controller in deep sleep, using the LowPower mode, it was possible to reduce the energy consumed to 0,25mA. It was also possible to decrease the energy consumed in an entire cycle for data acquisition, encoding and transmission in about 120mA. -	Based on the RTC implementation it was possible to respect the sleep intervals. At this moment when the sensor interrupts it’s active, the feather wakes up, records the change of state that this interrupt affects and if hasn’t passed the sleep time forces the microcontroller to sleep again.
+
