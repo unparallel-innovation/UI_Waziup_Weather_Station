@@ -33,11 +33,17 @@ RTC_DS3231 rtc;
 // LIBRARYS FOR WEATHER STATION
 // ----------------------------------------------------------------------------
 #include <Wire.h>               // I2C needed for sensors
-#include "WeatherConfig.h"      // Includes the "SparkFunMPL3115A2.h" & 
-                                // "SparkFunHTU21D.h" libraries
+//#include "WeatherConfig.h"      // Includes the "SparkFunMPL3115A2.h" & 
+                                  // "SparkFunHTU21D.h" libraries
+#include "SparkFunMPL3115A2.h"  //Pressure sensor - Search "SparkFun MPL3115" and install from Library Manager
+#include "SparkFunHTU21D.h"     //Humidity sensor - Search "SparkFun HTU21D" and install from Library Manager
 
-WeatherConfig myConfigWeather;  // For Pressure sensor & Humidity sensor 
+
+//WeatherConfig myConfigWeather;  // For Pressure sensor & Humidity sensor 
                                 // respectively
+
+MPL3115A2 myPressure; //Create an instance of the pressure sensor
+HTU21D myHumidity; //Create an instance of the humidity sensor
 // ----------------------------------------------------------------------------
 
 
@@ -72,8 +78,8 @@ WeatherConfig myConfigWeather;  // For Pressure sensor & Humidity sensor
 // OPERATING BAUDRATE
 // ----------------------------------------------------------------------------
 #define BAUDRATE 38400
-//#define SLEEP_TIME 900   
-#define SLEEP_TIME 30 
+#define SLEEP_TIME 900   
+//#define SLEEP_TIME 30 
 // ----------------------------------------------------------------------------
 
 
@@ -122,7 +128,7 @@ WeatherConfig myConfigWeather;  // For Pressure sensor & Humidity sensor
 #define WITH_APPKEY
 #define NEW_DATA_FIELD
 #define LOW_POWER
-#define WITH_ACK
+//#define WITH_ACK
 //#define LEDS
 // ----------------------------------------------------------------------------
 
@@ -219,10 +225,10 @@ struct sx1272config {
 // ----------------------------------------------------------------------------
 // volatiles are subject to modification by IRQs
 float lastGust = 0;
-volatile byte windClicks = 0;
-volatile byte rainClicks = 0;
-volatile float windSpeed = 0;
-volatile unsigned int lastWindCheck = 0;  
+volatile unsigned int windClicks = 0;
+volatile unsigned int rainClicks = 0;
+float windSpeed = 0;
+unsigned long lastWindCheck = 0;  
 
 uint8_t message[100];
 char auxBuf[20];
@@ -247,13 +253,33 @@ void setup()
     #ifdef LEDS
       digitalWrite(STAT_GREEN, HIGH);
     #endif
-    digitalWrite(WS_STATE, HIGH); 
+      digitalWrite(WS_STATE, HIGH); 
   #endif
+
 
   Serial.begin(BAUDRATE);
 
-  Wire.begin();
+  delay(1000);
   
+  Wire.begin();
+
+    //Configure the pressure sensor
+  myPressure.begin(); // Get sensor online
+  myPressure.setModeBarometer(); // Measure pressure in Pascals from 20 to 110 kPa
+  myPressure.setOversampleRate(7); // Set Oversample to the recommended 128
+  myPressure.enableEventFlags(); // Enable all three pressure and temp event flags
+
+  //Configure the humidity sensor
+  myHumidity.begin();
+
+
+//-----test
+  float pressureTeste = 0;
+  pressureTeste = myPressure.readPressure();
+  float tempTeste = 0;
+  tempTeste = myPressure.readTemp();
+//-----test
+
   // ----- Get Date & Time from system and send to RTC -------
   rtc.begin();    //begin the RTC
   
@@ -327,30 +353,25 @@ void setup()
   #ifdef PRINT
     Serial.print(F("Setting Mode: state "));
     Serial.print(statusMode);
-    PRINTLN;
-  
+    PRINTLN;  
     Serial.print(F("Setting Channel: state "));
     Serial.print(statusChannel);
-    PRINTLN;
-  
+    PRINTLN;  
     Serial.print(F("Setting Power: state "));
     Serial.print(statusPower);
-    PRINTLN;
-  
+    PRINTLN;  
     // Set the node address and print the result
     Serial.print(F("Setting node addr: state "));
     Serial.print(statusNodeAdd);
-    PRINTLN;
-  
+    PRINTLN;  
     // Print a success message
-    Serial.println(F("SX1272 successfully configured"));
-  
+    Serial.println(F("SX1272 successfully configured"));  
     Serial.println(F("Weather Shield Config"));
   #endif
 
 
   // Run Weather Shield calibration
-  myConfigWeather.calibration();
+  //myConfigWeather.calibration();
 
   // Attach external interrupt pins to IRQ functions
   attachInterrupt(2, rainIRQ, FALLING);              // FALLING: when the pin goes from high to low
@@ -404,13 +425,32 @@ void wspeedIRQ()
 ////////////////////////////// get_wind_speed(); get_gust(); & get_rain(); //////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*void calibration(){
+  
+//ADDED----------------------------  
+  Wire.begin();
+
+    //Configure the pressure sensor
+  myPressure.begin(); // Get sensor online
+  myPressure.setModeBarometer(); // Measure pressure in Pascals from 20 to 110 kPa
+  myPressure.setOversampleRate(7); // Set Oversample to the recommended 128
+  myPressure.enableEventFlags(); // Enable all three pressure and temp event flags
+
+  //Configure the humidity sensor
+  myHumidity.begin();
+  ///ADDED---------------------------
+}
+*/
+
 // Returns the wind speed
 float get_wind_speed()
 {
   float deltaTime = rtc.now().unixtime() - lastWindCheck; //750ms
 
   //deltaTime /= 1000.0; //Covert to seconds
- 
+  if (deltaTime > 0)
+  {
+   
   windSpeed = (float)windClicks / deltaTime; //3 / 0.750s = 4
 
   //windSpeed *= 1.492 * 1.61; //4 * 1.492 = 5.968MPH    1 milha = 1.61 KPH
@@ -419,7 +459,7 @@ float get_wind_speed()
   //deltaTime = 0;
   
   lastWindCheck = rtc.now().unixtime();
-
+  }
   return (windSpeed);
 }
 
@@ -440,6 +480,65 @@ float get_rain()
   return (rainClicks*0.2794); // Each interrup represent 0.011" iches of rain 1" to mm => 25.4mm
 }
 
+
+///ADDDED--------------------------------------------
+float get_light_level()
+{
+  float operatingVoltage = analogRead(REFERENCE_3V3);
+
+  float lightSensor = analogRead(LIGHT);
+
+  operatingVoltage = 3.3 / operatingVoltage; //The reference voltage is 3.3V
+
+  lightSensor = operatingVoltage * lightSensor;
+
+  return(lightSensor);
+}
+
+float get_battery_level()
+{
+  float operatingVoltage = analogRead(REFERENCE_3V3);
+
+  float rawVoltage = analogRead(BATT);
+
+  operatingVoltage = 3.30 / operatingVoltage; //The reference voltage is 3.3V
+
+  rawVoltage = operatingVoltage * rawVoltage; //Convert the 0 to 1023 int to actual voltage on BATT pin
+
+  rawVoltage *= 4.90; //(3.9k+1k)/1k - multiple BATT voltage by the voltage divider to get actual system voltage
+
+  return(rawVoltage);
+}
+
+int get_wind_direction()
+{
+  unsigned int adc;
+
+  adc = analogRead(WDIR); // get the current reading from the sensor
+
+  // The following table is ADC readings for the wind direction sensor output, sorted from low to high.
+  // Each threshold is the midpoint between adjacent headings. The output is degrees for that ADC reading.
+  // Note that these are not in compass degree order! See Weather Meters datasheet for more information.
+
+  if (adc < 380) return (113);
+  if (adc < 393) return (68);
+  if (adc < 414) return (90);
+  if (adc < 456) return (158);
+  if (adc < 508) return (135);
+  if (adc < 551) return (203);
+  if (adc < 615) return (180);
+  if (adc < 680) return (23);
+  if (adc < 746) return (45);
+  if (adc < 801) return (248);
+  if (adc < 833) return (225);
+  if (adc < 878) return (338);
+  if (adc < 913) return (0);
+  if (adc < 940) return (293);
+  if (adc < 967) return (315);
+  if (adc < 990) return (270);
+  return (-1); // error, disconnected?
+}
+///ADDDED--------------------------------------------
 
 // LowPower fuction. Return the sleep mode status.
 int lowPower(int e)
@@ -570,26 +669,42 @@ void loop(void)
       
       DateTime now = rtc.now();
       
-      
       digitalWrite(WS_STATE, HIGH);
+
+  
+      delay(1000);
+     
+      Wire.begin(); 
+    
+        //Configure the pressure sensor
+      myPressure.begin(); // Get sensor online
+      myPressure.setModeBarometer(); // Measure pressure in Pascals from 20 to 110 kPa
+      myPressure.setOversampleRate(7); // Set Oversample to the recommended 128
+      myPressure.enableEventFlags(); // Enable all three pressure and temp event flags
+    
+      //Configure the humidity sensor
+      myHumidity.begin();
+    
+      delay(1000);
 
       #ifdef LEDS;
         digitalWrite(STAT_BLUE, HIGH);
       #endif
 
+
       // GET VALUES
-        //Humidity
-        float humidity = myConfigWeather.get_humidity();
-        //Temperature (Cº)
-        float tempc = myConfigWeather.get_temperature();
         //Check Pressure Sensor
-        float pressure = myConfigWeather.get_pressure();
+        float pressure = myPressure.readPressure();
+        //Humidity
+        float humidity = myHumidity.readHumidity();
+        //Temperature (Cº)
+        float tempc = myHumidity.readTemperature();
         //Check light sensor
-        float light_lvl = myConfigWeather.get_light_level(analogRead(REFERENCE_3V3), analogRead(LIGHT));
+        float light_lvl = get_light_level();
         //Check batt level
-        float batt_lvl = myConfigWeather.get_battery_level(analogRead(REFERENCE_3V3), analogRead(BATT));
+        float batt_lvl = get_battery_level();
         //Check wind direction
-        float windDirection = myConfigWeather.get_wind_direction(WDIR);   // WDIR: is analog pin "A0"
+        float windDirection = get_wind_direction();   
         //Check wind speed
         float getWindSpeed = get_wind_speed();
         //Get Rain
@@ -613,79 +728,53 @@ void loop(void)
         #ifdef PRINT_DATA
           PRINTLN;
           Serial.print(F("Temperature = "));
-          Serial.print(tempc, 2);
+          Serial.print(tempc, 0);
           Serial.print(F("C,"));
-        
           Serial.print(F(" Humidity = "));
           Serial.print(humidity, 0);
           Serial.print(F("%,"));
-        
           Serial.print(F(" Pressure = "));
-          Serial.print(pressure, 0);
+          Serial.print(pressure, 2);
           Serial.print(F("Pa,"));
-        
           Serial.print(F(" Light_lvl = "));
-          Serial.print(light_lvl);
+          Serial.print(light_lvl, 2);
           Serial.print(F("V,"));
-        
           Serial.print(F(" VinPin = "));
-          Serial.print(batt_lvl);
+          Serial.print(batt_lvl, 2);
           Serial.print(F("V"));
-        
           Serial.print(F(" Wind Direction = "));
-          Serial.print(windDirection);
+          Serial.print(windDirection, 0);
           Serial.print("º");
-        
           Serial.print(F(" Gust = "));
-          Serial.print(lastGust);
-        
+          Serial.print(lastGust, 2);
           Serial.print(F(" Wind Speed = "));
-          Serial.print(getWindSpeed);
-        
+          Serial.print(getWindSpeed, 2);
           Serial.print(F(" Rain = "));
-          Serial.print(getRain);
+          Serial.print(getRain, 2);
           PRINTLN;
         #endif
       
 
         // NEW_DATA_FIELD
         #ifdef NEW_DATA_FIELD
-           
-           r_size = sprintf((char*)message + app_key_offset, "\\!TC/%s", dtostrf(tempc,2,2,auxBuf));
+           r_size = sprintf((char*)message + app_key_offset, "\\!1HMA3TVV1TLUHU8B##TC/%s", dtostrf(tempc,2,0,auxBuf));    // !1HMA3TVV1TLUHU8B## (THINGSPEAK_KEY##MENSAGEM)
            r_size += sprintf((char*)message + app_key_offset + r_size, "/HU/%s", dtostrf(humidity,2,0,auxBuf));
            r_size += sprintf((char*)message + app_key_offset + r_size, "/LU/%s", dtostrf(light_lvl,2,2,auxBuf));
            r_size += sprintf((char*)message + app_key_offset + r_size, "/DO/%s", dtostrf(pressure,2,2,auxBuf));
            r_size += sprintf((char*)message + app_key_offset + r_size, "/AZO/%s", dtostrf(batt_lvl,2,2,auxBuf));
            r_size += sprintf((char*)message + app_key_offset + r_size, "/WD/%s", dtostrf(windDirection,2,0,auxBuf));
-           r_size += sprintf((char*)message + app_key_offset + r_size, "/WC/%s", dtostrf(getWindSpeed,1,0,auxBuf));
+           r_size += sprintf((char*)message + app_key_offset + r_size, "/WC/%s", dtostrf(getWindSpeed,2,2,auxBuf));
            r_size += sprintf((char*)message + app_key_offset + r_size, "/RC/%s", dtostrf(getRain,2,2,auxBuf));
-           
-           //r_size = sprintf((char*)message + app_key_offset, "\\!TC/%s/HU/%s/LU/%s/DO/%s/AZO/%s/WD/%s/WC/%s/RC/%s", dtostrf(tempc,3,2,auxBuf), dtostrf(humidity,3,0,auxBuf), dtostrf(light_lvl,3,2,auxBuf), dtostrf(pressure,3,2,auxBuf) , dtostrf(batt_lvl,3,2,auxBuf), dtostrf(windDirection,3,0,auxBuf), dtostrf(getWindSpeed,3,0,auxBuf), dtostrf(lastRain,3,3,auxBuf) );
-
           #else
            r_size = sprintf((char*)message + app_key_offset, "\\!#%d#%d", field_index, (int)temp);
         #endif
-
-
-       //r_size = sprintf((char*)message + app_key_offset, "\\!TC/%s/HU/%s/LU/%s/DO/%s/AZO/%s/WD/%s/WC/%s/RC/%s", char(tempc), char(humidity), char(light_lvl), char(pressure) , char(batt_lvl), char(windDirection), char(getWindSpeed), char(lastRain) );
-       //r_size = sprintf((char*)message + app_key_offset, "\\!TC/%s/HU/%s/LU/%s/DO/%s/AZO/%s/WD/%s/WC/%s/RC/%s", char(tempc), char(humidity), char(light_lvl), char(pressure) , char(batt_lvl), char(windDirection), char(getWindSpeed), char(lastRain) );
-
-        /*
-          //  "\\!TC/%s/HU/%s/LU/%s/DO/%s/AZO/%s/WD/%s/WC/%s/RC/%s""
-          String valores;
-        
-          valores += "\\!TC/"+String(tempc,2)+"/HU/"+String(humidity,0)+"/LU/"+String(light_lvl,2)+"/DO/"+String((pressure),2)+"/AZO/"+String(batt_lvl,2)+"/WD/"+String(windDirection,1)+"/WC/"+String(getWindSpeed,1)+"/RC/"+String(getRain,1);
-        
-          Serial.print(valores);
-          Serial.println("");
-        */
-
                              
         #ifdef PRINT
             #ifdef DELAY
               delay(10);
             #endif
             PRINTLN;
+            Serial.println(F("Weather Station Version: 1.01"));
             Serial.print(F("Sending "));
             PRINT_STR("%s",(char*)(message+app_key_offset));   
             PRINTLN;
@@ -728,19 +817,15 @@ void loop(void)
           Serial.print(F("LoRa pkt size "));
           Serial.print(pl);
           PRINTLN;
-      
           Serial.print(F("LoRa pkt seq "));
           Serial.print(sx1272.packet_sent.packnum);
           PRINTLN;
-      
           Serial.print(F("LoRa Sent in "));
           Serial.print((endSend - startSend));
           PRINTLN;
-      
           Serial.print(F("LoRa Sent w/CAD in "));
           Serial.print((endSend - sx1272._startDoCad));
           PRINTLN;
-      
           Serial.print(F("Packet sent, state "));
           Serial.print(e);
           PRINTLN;
@@ -750,7 +835,6 @@ void loop(void)
         windClicks = 0;
         windSpeed = 0;
         rainClicks = 0;
-        lastWindCheck = 0;
 
 
 
@@ -758,7 +842,7 @@ void loop(void)
       now = rtc.now();
       before_sleep = now.unixtime();     // now.unixtime() return the seconds since 1970 till now
 
-      // APAGARRRRRRRRRR ---------------------------
+
       #ifdef PRINT_DATA
         Serial.println();
         Serial.print("before_sleep ");
@@ -787,7 +871,6 @@ void loop(void)
                      
       }while ((after_sleep-before_sleep) < (SLEEP_TIME));
 
-      // APAGARRRRRRRRRR ---------------------------
       #ifdef PRINT_DATA
         delay(10);
         Serial.println(F(""));

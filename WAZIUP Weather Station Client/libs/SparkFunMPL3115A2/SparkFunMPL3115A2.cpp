@@ -98,22 +98,37 @@ float MPL3115A2::readAltitudeFt()
 //Returns -1 if no new data is available
 float MPL3115A2::readPressure()
 {
+	Serial.println(F("---------------------------------"));
+	Serial.println(F("Pressure Version: 1.12"));
+	Serial.print(F("IIC_Read(STATUS): "));
+	Serial.println(IIC_Read(STATUS));
+
+	//CHANGE (Sérgio Rocha)
+
 	//Check PDR bit, if it's not set then toggle OST
-	if(IIC_Read(STATUS) & (1<<2) == 0) toggleOneShot(); //Toggle the OST bit causing the sensor to immediately take another reading
+	//if(IIC_Read(STATUS) & (1<<2) == 0) 
+	toggleOneShot(); //Toggle the OST bit causing the sensor to immediately take another reading
+
+	Serial.print(F("IIC_Read(STATUS): "));
+	Serial.println(IIC_Read(STATUS));
 
 	//Wait for PDR bit, indicates we have new pressure data
 	int counter = 0;
 	while(IIC_Read(STATUS) & (1<<2) == 0)
 	{
-		if(++counter > 600) return(-999); //Error out after max of 512ms for a read
+		if(++counter > 600) return(-998); //Error out after max of 512ms for a read
 		delay(1);
 	}
+
+	Serial.print("Count: ");
+	Serial.println(counter);
 
 	// Read pressure registers
 	Wire.beginTransmission(MPL3115A2_ADDRESS);
 	Wire.write(OUT_P_MSB);  // Address of data to get
 	Wire.endTransmission(false); // Send data to I2C dev with option for a repeated start. THIS IS NECESSARY and not supported before Arduino V1.0.1!
 	if (Wire.requestFrom(MPL3115A2_ADDRESS, 3) != 3) { // Request three bytes
+		//Serial.print("-999: ");
 		return -999;
 	}
 
@@ -121,6 +136,13 @@ float MPL3115A2::readPressure()
 	msb = Wire.read();
 	csb = Wire.read();
 	lsb = Wire.read();
+
+	//Serial.print("msb: ");
+	//Serial.println(msb);
+	//Serial.print("csb: ");
+	//Serial.println(csb);
+	//Serial.print("lsb: ");
+	//Serial.println(lsb);
 	
 	toggleOneShot(); //Toggle the OST bit causing the sensor to immediately take another reading
 
@@ -128,11 +150,23 @@ float MPL3115A2::readPressure()
 	long pressure_whole = (long)msb<<16 | (long)csb<<8 | (long)lsb;
 	pressure_whole >>= 6; //Pressure is an 18 bit number with 2 bits of decimal. Get rid of decimal portion.
 
+	//Serial.print("pressure_whole: ");
+	//Serial.println(pressure_whole);
+
 	lsb &= B00110000; //Bits 5/4 represent the fractional component
 	lsb >>= 4; //Get it right aligned
 	float pressure_decimal = (float)lsb/4.0; //Turn it into fraction
 
+	//Serial.print("pressure_decimal: ");
+	//Serial.println(pressure_decimal);
+
 	float pressure = (float)pressure_whole + pressure_decimal;
+
+	Serial.print("pressure: ");
+	Serial.println(pressure);
+
+
+	Serial.println(F("---------------------------------"));
 
 	return(pressure);
 }
