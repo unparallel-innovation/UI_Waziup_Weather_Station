@@ -45,7 +45,7 @@ The data structure defined in the context of WAZIUP, and shown here as an exampl
     cmd = 'curl -s -k -X POST --data '+str+ ' https://api.thingspeak.com/update?key='+data[0]
     (...)
     ```
-* [**CloudWAZIUP.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP%20Gateway%20Modifications/CloudWAZIUP.py) Is used to send weather parameters to the WAZIUP broker which is built on the top of the FIWARE Orion context broker, a customized [freeboard page](http://freeboard.waziup.io/index.html#source=http://thingproxy.freeboard.io/fetch/https://www.dropbox.com/s/ucx8p4wwktqiu43/UI_WEATHER.json?dl=1) was created with the purpose of displaying through several graphical widgets information about the stored weather parameters, this script uses the following configurations.
+* [**CloudWAZIUP.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP%20Gateway%20Modifications/CloudWAZIUP.py) Is used to send weather parameters to the WAZIUP broker which is built on the top of the FIWARE Orion context broker, a customized [freeboard page](http://freeboard.waziup.io/index.html#source=http://thingproxy.freeboard.io/fetch/https://www.dropbox.com/s/qcoam8z8epblrzt/UI_WEATHER.json?dl=1) was created with the purpose of displaying through several graphical widgets information about the stored weather parameters, this script uses the following configurations.
     ```python
     (...)
     #server: CAUTION must exist

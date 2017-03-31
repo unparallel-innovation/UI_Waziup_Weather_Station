@@ -44,6 +44,7 @@ service_tree='/WEATHER'
 
 #sensor name: CHANGE HERE but maybe better to leave it as Sensor
 sensor_name="Sensor"
+entity_name="WeatherStationV2"
 
 #service path: DO NOT CHANGE HERE
 service_path='/'+organization_name+service_tree
@@ -213,7 +214,8 @@ def WAZIUP_uploadData(nomenclatures, data, src):
 	# if we got a response from the server, send the data to it
 	if(connected):
 		print("WAZIUP: uploading")
-		send_data(data, sensor_name+src, nomenclatures)
+		#send_data(data, sensor_name+src, nomenclatures)
+		send_data(data, entity_name, nomenclatures)
 	else:
 		print("WAZIUP: not uploading")
 		
