@@ -13,7 +13,7 @@ The data structure defined in the context of WAZIUP, and shown here as an exampl
 
 
 
-* [**CloudThingSpeakWeatherStation.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP%20Gateway%20Modifications/CloudThingSpeakWeatherStation.py) Is based on the file [CloudThingSpeak.py](https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_advanced/new_cloud_design/CloudThingSpeak.py) and is responsible for sending each weather parameter into a different field on a specified [thingspeak channel](https://thingspeak.com/channels/184796).
+* [**CloudThingSpeakWeatherStation.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP%20Gateway%20Modifications/CloudThingSpeakWeatherStation.py) Is based on the file [CloudThingSpeak.py](https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_advanced/new_cloud_design/CloudThingSpeak.py) and is responsible for sending each weather parameter into a [thingspeak channel](https://thingspeak.com/channels/184796) after specifying the channel key.
 
     ```python
     (...)
@@ -45,7 +45,7 @@ The data structure defined in the context of WAZIUP, and shown here as an exampl
     cmd = 'curl -s -k -X POST --data '+str+ ' https://api.thingspeak.com/update?key='+data[0]
     (...)
     ```
-* [**CloudWAZIUP.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP%20Gateway%20Modifications/CloudWAZIUP.py) Is used to send weather parameters to the WAZIUP broker which is built on the top of the FIWARE Orion context broker, a customized [freeboard page](http://freeboard.waziup.io/index.html#source=http://thingproxy.freeboard.io/fetch/https://www.dropbox.com/s/qcoam8z8epblrzt/UI_WEATHER.json?dl=1) was created with the purpose of displaying through several graphical widgets information about the stored weather parameters, this script uses the following configurations.
+* [**CloudWAZIUP.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP%20Gateway%20Modifications/CloudWAZIUP.py) Is used to send weather parameters to the WAZIUP broker which is built on the top of the FIWARE Orion context broker, a customized [freeboard page](http://freeboard.waziup.io/index.html#source=http://thingproxy.freeboard.io/fetch/https://www.dropbox.com/s/md6tjagkiuy3b23/WAZIUP_WEATHER_STATION_V2.json?dl=1) was created with the purpose of displaying through several graphical widgets information about the stored weather parameters, this script uses the following configurations.
     ```python
     (...)
     #server: CAUTION must exist

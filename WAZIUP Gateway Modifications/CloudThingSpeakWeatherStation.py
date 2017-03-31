@@ -41,7 +41,7 @@ import re
 #_def_thingspeak_channel_key='SGSH52UGPVAUYG3S'
 
 #Personal channel
-_def_thingspeak_channel_key='1HMA3TVV1TLUHU8B' #define the write api key of the channel
+_def_thingspeak_channel_key='XXXXXXXXXXXXXXXX' #define the write api key of the channel
 
 # didn't get a response from thingspeak server?
 connection_failure = False
