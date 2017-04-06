@@ -7,7 +7,7 @@ This document describes the modifications made to the [WAZIUP Low-cost LoRa gate
 
 The data structure defined in the context of WAZIUP, and shown here as an example of the Weather Station data: “\!TO/18.6/TI/19/PA/1023/HU/40/WS/30,…” is used to represent the data sent from the sensor nodes to the gateway. This represents weather parameters like Atmospheric temperature, Humidity, Barometric pressure, etc. After parsing this information the gateway reads the cloud configuration file (“clouds.json”), and pushes the data the ThingSpeak channel and to the WAZIUP broker. In this case the following cloud configuration files were used:
 
-* [**CloudThingSpeakWeatherStation.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP_Gateway_Modifications/CloudThingSpeakWeatherStation.py) Is based on the file [CloudThingSpeak.py](https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_full_latest/CloudThingSpeak.py) and is responsible for sending each weather parameter into a [thingspeak channel](https://thingspeak.com/channels/184796) after specifying the channel key.
+* [**CloudThingSpeakWeatherStation.py:**](https://github.com/unparallel-innovation/UI_Waziup_Weather_Station/blob/master/WAZIUP_Gateway_Modifications/CloudThingSpeakWeatherStation.py) Is based on the file [CloudThingSpeak.py](https://github.com/CongducPham/LowCostLoRaGw/blob/master/gw_full_latest/CloudThingSpeak.py) and is responsible for sending each weather parameter into a [thingspeak channel](https://thingspeak.com/channels/252734) after specifying the channel key.
 
     ```python
     (...)
