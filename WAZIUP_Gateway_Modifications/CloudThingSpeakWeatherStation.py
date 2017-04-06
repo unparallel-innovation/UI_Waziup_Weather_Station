@@ -111,21 +111,21 @@ def send_data(data, second_data):
 	str = ''
 	try:
 		for i in range(len(data)):
-        		if data[i] == 'TC':
+        		if data[i] == 'TO':
                 		str = str+'field1='+data[i+1]+'&'
-        		elif data[i] == 'HU':
+        		elif data[i] == 'TI':
                 		str = str+'field2='+data[i+1]+'&'
-        		elif data[i] == 'LU':
+        		elif data[i] == 'HU':
                 		str = str+'field3='+data[i+1]+'&'
-        		elif data[i] == 'DO':
+        		elif data[i] == 'PA':
                 		str = str+'field4='+data[i+1]+'&'
-        		elif data[i] == 'AZO':
-                		str = str+'field5='+data[i+1]+'&'
         		elif data[i] == 'WD':
+                		str = str+'field5='+data[i+1]+'&'
+        		elif data[i] == 'WS':
                 		str = str+'field6='+data[i+1]+'&'
-        		elif data[i] == 'WC':
+        		elif data[i] == 'RA':
                 		str = str+'field7='+data[i+1]+'&'
-        		elif data[i] == 'RC':
+        		elif data[i] == 'UT':
                 		str = str+'field8='+data[i+1]+'&'
 	except:
 		print "Error"
