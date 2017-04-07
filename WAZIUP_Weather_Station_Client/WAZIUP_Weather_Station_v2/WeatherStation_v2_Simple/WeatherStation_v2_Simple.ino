@@ -69,6 +69,7 @@ Adafruit_MPL115A2 mpl115a2;       // Include the MPL115A2 Barometric Pressure an
 #define BAUDRATE 38400  // Operating Baudrate
 
 
+
 //--------------- Comment or Uncomment to change features ---------------
 #if not defined _VARIANT_ARDUINO_DUE_X_ && not defined __SAMD21G18A__
 #define WITH_EEPROM  
@@ -80,8 +81,29 @@ Adafruit_MPL115A2 mpl115a2;       // Include the MPL115A2 Barometric Pressure an
 #define LORAMODE  1   // The LoRa mode
 #define node_addr 8   // Node Address
 
+
+
+
+
+
+
+
+
+
 // Change here the time in miliseconds between 2 reading & transmission
-unsigned int sleepTime = 30000;   
+unsigned int sleepTime = 20000;   
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //--------------- Comment or Uncomment to change features ---------------
@@ -152,6 +174,8 @@ volatile unsigned int wind = 0;
 void setup() 
 {
   int e;
+
+  delay(1000); //delay bruxedo!!!
 
   Serial.begin(BAUDRATE);     // Open serial communications
 
@@ -386,6 +410,10 @@ void loop()
 
   #ifdef PRINT
     PRINTLN;
+    Serial.print(F("Delay time  = "));
+    Serial.print(sleepTime);
+    Serial.println(F("seconds"));   
+    
     Serial.print(F("Timestamp = "));
     Serial.print(timeStamp);
     Serial.print(F("seconds,"));
