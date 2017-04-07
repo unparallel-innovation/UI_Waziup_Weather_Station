@@ -6,20 +6,10 @@
  * Last update: 
  */
 
+
 #include <SPI.h>
 #include <Wire.h>
 #include "SX1272.h"   //Include the SX1272 LoRa module
-
-#include <Snooze.h>   //Include the Snooze librarie for the Teensy (need v6 of Snooze library)
-SnoozeTimer timer;
-SnoozeDigital digital;
-Snoozelc5vBuffer  lc5vBuffer; // confdigures the lc's 5v data buffer (OUTPUT, LOW) for low power
-//SnoozeBlock sleep_config(timer);
-#if defined(__MK20DX256__)
-SnoozeBlock config_teensy(touch, digital, timer, compare);
-#elif defined(__MKL26Z64__)
-SnoozeBlock config_teensy(digital, timer, lc5vBuffer);
-#endif
 
 #include <RTClib.h>  // Include the DS3231 library 
 RTC_DS3231 rtc;
@@ -84,15 +74,6 @@ Adafruit_MPL115A2 mpl115a2;       // Include the MPL115A2 Barometric Pressure an
 #define WITH_APPKEY
 //#define WITH_ACK
 //------------------------------------------------------------------------
-
-
-//--------------- Uncomment only one Snooze mode ---------------
-//#define LOW_POWER
-#define SNOOZE_HIBERNATE
-//#define SNOOZE_SLEEP
-//#define SNOOZE_DEEPSLEEP
-//--------------------------------------------------------------
-
 
 #define LORAMODE  1   // The LoRa mode
 #define node_addr 8   // Node Address
@@ -543,12 +524,10 @@ void loop()
   rain=0;
   wind=0;
 
-  int snooze_who;
   unsigned long before_time=0;
   unsigned long after_time=0;
   unsigned long current_time=0;
-  unsigned long new_sleep=0;
-  
+
 
   now = rtc.now();
   before_time = now.unixtime();     // now.unixtime() return the seconds since 1970 till now
