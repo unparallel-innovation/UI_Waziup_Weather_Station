@@ -81,7 +81,7 @@ Adafruit_MPL115A2 mpl115a2;       // Include the MPL115A2 Barometric Pressure an
 #define node_addr 8   // Node Address
 
 // Change here the time in miliseconds between 2 reading & transmission
-unsigned int sleepTime = 120000;   
+unsigned int sleepTime = 30000;   
 
 
 //--------------- Comment or Uncomment to change features ---------------
@@ -167,7 +167,7 @@ void setup()
   rtc.begin();    // Begin the RTC. Get Date & Time from system
   
   // Uncomment to adjust the date & time ONLY in the first compiler run
-  // rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));
+  //rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));
   if (rtc.lostPower())
   {
     rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));   // Get the Date and Time the compiler was run

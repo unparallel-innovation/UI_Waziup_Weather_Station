@@ -1,0 +1,26 @@
+WAZIUP Weather Station Client
+=============================
+
+****************************************************************
+*     Low-Cost Weather Station v2 with LoRa Communication      *
+*							       *
+*              Unparallel Innovation, Portugal                 *
+****************************************************************
+ 
+
+In this version 2 we use the following hardware list:
+- Teensy LC (Product page: https://www.adafruit.com/products/2419)
+- Adafruit RFM9x LoRa Radio (Product page: https://www.adafruit.com/products/3072)
+- Adafruit RTC DS3231 (Product page: https://www.adafruit.com/product/3013)- Adafruit AM2315 Sensor (Product page: https://www.adafruit.com/product/1293)
+- Adafruit MPL115A2 Sensor (Product page: https://www.adafruit.com/product/992)- Weather Meters Kit - Wind and rain sensors (Product page: https://www.sparkfun.com/products/8942)- Antenna 868 Mhz and SMA cable
+
+——————————————————————————————————————————————————————————————————————————————
+GETTING, COMPILING AND INSTALLING THE SOFTWARE
+
+Below you can see a step-by-step tutorial, a simple user guide, about how to use this source code to work with your weather station:
+First of all you need to assembling the hardware, and then programming the software and tested it. To assemble the hardware we recommend first reading the document provided by Unparallel Inovation, and then just follow the next steps:
+- Download the Arduino IDE.
+- Download the “Libraries” folder that has all the libraries you will need it. The “SX1272” library includes LoRa Communication and was builded because of feather specification. The “RTCLib” includes all the functions to communicate with the RTC and the “MPL115A” and “AM2315” with all necessary sensor control functions.- You can use one of the following codes.
+- Serial monitor: You can see the sensors output and LoRa communication state if you use serial communication. Be sure to use 38400 bauds
+
+
