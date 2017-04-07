@@ -4,6 +4,8 @@
  * Unparalell Inovations Lda
  * 
  * Last update: 
+ * 
+ * WeatherStation_v2_Simple: version with no Sleep
  */
 
 
@@ -165,7 +167,7 @@ void setup()
   rtc.begin();    // Begin the RTC. Get Date & Time from system
   
   // Uncomment to adjust the date & time ONLY in the first compiler run
-  rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));
+  // rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));
   if (rtc.lostPower())
   {
     rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));   // Get the Date and Time the compiler was run
