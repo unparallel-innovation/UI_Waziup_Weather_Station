@@ -91,6 +91,12 @@ Adafruit_MPL115A2 mpl115a2;       // Include the MPL115A2 Barometric Pressure an
 
 
 // Change here the time in miliseconds between 2 reading & transmission
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+unsigned int sleepTime = 20000;   
+=======
+>>>>>>> Stashed changes
 unsigned int sleepTime = 60000;   
 
 
@@ -104,6 +110,10 @@ unsigned int sleepTime = 60000;
 
 
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 
 
 //--------------- Comment or Uncomment to change features ---------------
