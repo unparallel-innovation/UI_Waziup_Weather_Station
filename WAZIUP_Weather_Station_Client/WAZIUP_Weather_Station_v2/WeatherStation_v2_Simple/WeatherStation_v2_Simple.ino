@@ -78,7 +78,7 @@ Adafruit_MPL115A2 mpl115a2;       // Include the MPL115A2 Barometric Pressure an
 //#define WITH_ACK
 //------------------------------------------------------------------------
 
-#define LORAMODE  1   // The LoRa mode
+#define LORAMODE  4   // The LoRa mode
 #define node_addr 8   // Node Address
 
 
@@ -91,7 +91,7 @@ Adafruit_MPL115A2 mpl115a2;       // Include the MPL115A2 Barometric Pressure an
 
 
 // Change here the time in miliseconds between 2 reading & transmission
-unsigned int sleepTime = 20000;   
+unsigned int sleepTime = 60000;   
 
 
 
@@ -191,7 +191,7 @@ void setup()
   rtc.begin();    // Begin the RTC. Get Date & Time from system
   
   // Uncomment to adjust the date & time ONLY in the first compiler run
-  //rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));
+  //rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,2,0,0));
   if (rtc.lostPower())
   {
     rtc.adjust(DateTime( F(__DATE__), F(__TIME__) ) - TimeSpan(0,1,0,0));   // Get the Date and Time the compiler was run
@@ -410,6 +410,10 @@ void loop()
 
   #ifdef PRINT
     PRINTLN;
+
+    Serial.print(F("LoRa Mode  = "));
+    Serial.println(LORAMODE);
+    
     Serial.print(F("Delay time  = "));
     Serial.print(sleepTime);
     Serial.println(F("seconds"));   
