@@ -10,4 +10,4 @@ WAZIUP Weather Station Client
 
 These source codes are part of low-cost weather station with any LoRa intermediate gateway node. With same expert level architecture, the challenge here is integrate a set of feedbacks available to IOT cloud connectivity to collect data and send them to gateway like a post-processing received data, whose transmission is carried out from LoRa bi-directional communication as part of an infrastructure and low cost technology, with the challenge of representing a low cost technologic long range communication, developing a light and scalable platform with low or zero energy resources.
 
-In both “WAZIUP_Weather_Station_v1” and “WAZIUP_Weather_Station_v2” folders are included the necessary libraries and codes for each Weather Station version.
+In “WAZIUP_Weather_Station_v1” folder are included the necessary libraries and codes for about Weather Station version 1.
