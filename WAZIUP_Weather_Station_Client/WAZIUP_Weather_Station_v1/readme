@@ -1,25 +1,0 @@
-WAZIUP Weather Station Client
-=============================
-
-****************************************************************
-*     Low-Cost Weather Station v1 with LoRa Communication      *
-*							       *
-*              Unparallel Innovation, Portugal                 *
-****************************************************************
- 
-
-In this version 1 we use the following hardware list:
-- Adafruit Feather 32u4 RFM95 LoRa Radio with female pin headers (Product page: https://www.adafruit.com/product/3078)
-- Adafruit RTC DS3231 (Product page: https://www.adafruit.com/product/3013)- Sparkfun Weather Shield with RJ11 female connectors (Product page: https://www.sparkfun.com/products/12081)- Wind and rain sensors kit (Product page: https://www.sparkfun.com/products/8942)- Antenna 868 Mhz and SMA cable
-
-——————————————————————————————————————————————————————————————————————————————
-GETTING, COMPILING AND INSTALLING THE SOFTWARE
-
-Below you can see a step-by-step tutorial, a simple user guide, about how to use this source code to work with your weather station:
-First of all you need to assembling the hardware, and then programming the software and tested it. To assemble the hardware we recommend first reading the document provided by Unparallel Inovation, and then just follow the next steps:
-- Download the Arduino IDE.
-- Download the “Libraries” folder that has all the libraries you will need it. The “FeatherLib” library includes LoRa Communication and was builded because of feather specification. The “RTCLib” includes all the functions to communicate with the RTC and the “WeatherStation” folder includes “SparkFunHTU21D” and “SparkFunMPL3115A2” with all necessary sensor control functions.- We recommend to use the “WAZIUP_Weather_Station_v1.ino” script. It contains the stable version for Feather board using a RTC, a sample to use the sensores and output data with Lora communication and LowPower. You can use this sketch as is.
-- Serial monitor: You can see the sensors output and LoRa communication state if you use serial communication. Be sure to use 38400 bauds
-
-————————————————————————————————————————————————————————————————————————————————————————
-SYSTEM RUNNING1.	Power-on the Feather. The script starts automatically when feather is powered on.2.	At the start and during its automatic sensors calibration process the green led appears on (take about 5 seconds). 3.	Wakes-up every 15 min, take all the measurements and send to GW.4.	At the moment of reading values of the sensors and sending a message to the LoRa gateway the blue led lights up and then:	I.	If feather does not receive acknowledge then the blue led turns off and Feather sleeps. 	II.	If feather receive acknowledge from master gateway then the blue led switch to green for 2 seconds, and feathers start sleeping.5.	When Feather sleeps all led’s are off.6.	Feather wake up after 15 minute (by default), take the measurements and send back to master gateway until sleeping again.
