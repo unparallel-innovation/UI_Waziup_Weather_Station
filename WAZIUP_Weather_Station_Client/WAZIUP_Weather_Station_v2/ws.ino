@@ -10,6 +10,5 @@ void setup()
 
 void loop()
 {
-
   if(ws.task()!=0);
 }
