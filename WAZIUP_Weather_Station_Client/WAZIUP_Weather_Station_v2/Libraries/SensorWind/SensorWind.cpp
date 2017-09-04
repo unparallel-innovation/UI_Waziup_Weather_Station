@@ -229,10 +229,8 @@ SensorWind::SensorWind(int interrupt_pin, double calibration, const uint8_t dire
 
 
 		t_min=36000000;
-  		t_previous=millis();
-  		wind=0;
-  		control=0;					// (FINAL VERSION: TO BE DELETED)
-		t_interval=0;
+  	wind=0;
+  	control=0;					// (FINAL VERSION: TO BE DELETED)
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -25,6 +25,8 @@ WeatherStation::WeatherStation(HardwareSerial* Serial)
 	currentNow=0;
 	currentMin=9999;
 	currentMax=-9999;
+	time_before=0;
+	time_after=0;
 }
 
 	//---------------------------------	Inicialize Weather Station --------------------------------------
@@ -326,6 +328,16 @@ WeatherStation::WeatherStation(HardwareSerial* Serial)
 		      }
 		      return 0;		// Send period reached
 		  }
+
+			// Wind Direction Tendency
+			time_after=millis();
+			if ((time_after-time_before) > 500)
+			{
+				time_before=millis();
+				int windIndice = sw.incrementWindIndice();
+			}
+
+
 
 
 		  		#ifdef DEBUG_INTERRUPTS
