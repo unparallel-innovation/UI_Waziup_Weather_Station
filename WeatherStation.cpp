@@ -83,9 +83,17 @@ sw(wind_speed, WDIR_CALIBRATION, wind_dir)
 	{
 		#ifdef ENABLE_DEBUG
 		Serial.begin(BAUDRATE);
+
+		unsigned long before = millis();
+
 		while (!Serial)
 		{
+			unsigned long after = millis();
+
+			if( (after-before)>5000 )
+				break;
   	}
+
 		Serial.println(F("------------------------------------------------------------"));
 		Serial.println(F("-                  LoRa Weather Station                    -"));
 		Serial.println(F("-                                                          -"));
