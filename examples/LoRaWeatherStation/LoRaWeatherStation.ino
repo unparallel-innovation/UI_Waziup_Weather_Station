@@ -20,7 +20,7 @@
 // Thing Speak id channel
 #define THINGSPEAK
 #ifdef THINGSPEAK
-static const char ThingSpeak[]="12BA23BAfe3";
+static const char ThingSpeak[]="IV4LNFVW2ZZ78MVI";
 #endif
 
 // Weather Station pins to Adafruit Feather M0
