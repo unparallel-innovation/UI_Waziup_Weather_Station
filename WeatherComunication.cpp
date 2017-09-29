@@ -49,8 +49,8 @@ WeatherComunication::WeatherComunication(int cs, int rst, int interrupt, float f
 		Serial.println();
 		Serial.print(F(" Temperature: "));                     Serial.print(wr.getTemperature());		Serial.print(F("ºC "));
 		Serial.print(F(" Humidity: "));                     Serial.print(wr.getHumidity());	Serial.print(F("% "));
-		Serial.print(F(" Pressure: "));                     Serial.print(wr.getPressure());	Serial.print(F("KPa "));
-		Serial.print(F(" Amount of Rain: "));           Serial.print(wr.getAmountRain());	Serial.println(F("mm "));
+		Serial.print(F(" Pressure: "));                     Serial.print(wr.getPressure());	Serial.println(F("KPa "));
+		Serial.print(F(" Rain: "));           Serial.print(wr.getAmountRain());	Serial.println(F("mm "));
 		Serial.print(F(" Wind Speed: "));        Serial.print(wr.getWindSpeed());	Serial.print(F("km/h "));
 		Serial.print(F(" Wind Gust: "));        Serial.print(wr.getWindGust());	Serial.print(F("km/h "));
 		Serial.print(F(" Wind Direction: "));        Serial.print(wr.getWindDirection());	Serial.println(F("º "));
@@ -61,12 +61,16 @@ WeatherComunication::WeatherComunication(int cs, int rst, int interrupt, float f
 			Serial.print(F(" Minimum Current  (from INA):" ));       	 		Serial.print(wr.getMinCurrent());		Serial.print(F("mA "));
 			#endif
 			// #ifdef THINGSPEAK
+			Serial.println();
 			Serial.print(F(" ThingSpeak Channel: " ));       		 			Serial.print(ts_channel);
 			// #endif
 
 		Serial.println();
 		Serial.println(F("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"));
 		Serial.println();
+
+		Serial.flush();
+
 	}
 	//----------------------------------------------------------------------------------------------
 

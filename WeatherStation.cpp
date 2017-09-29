@@ -302,11 +302,11 @@ sw(wind_speed, WDIR_CALIBRATION, wind_dir)
 				Serial.println();
 				Serial.print(F(" Temperature: "));                     Serial.print(temperatures[minutes-1]);		Serial.print(F("ºC "));
 	      Serial.print(F(" Humidity: "));                     Serial.print(humidities[minutes-1]);	Serial.print(F("% "));
-	      Serial.print(F(" Pressure: "));                     Serial.print(pressures[minutes-1]);	Serial.print(F("KPa "));
-	      Serial.print(F(" Amount of Rain: "));           Serial.print(sr.getRain());	Serial.println(F("mm "));
+	      Serial.print(F(" Pressure: "));                     Serial.print(pressures[minutes-1]);	Serial.println(F("KPa "));
+	      Serial.print(F(" Rain: "));           Serial.print(sr.getRain());	Serial.println(F("mm "));
 	      Serial.print(F(" Wind Speed: "));        Serial.print(sw.getWindSpeed(minutes));	Serial.print(F("km/h "));
 				Serial.print(F(" Wind Gust: "));        Serial.print(sw.getWindGust());	Serial.print(F("km/h "));
-				Serial.print(F(" Wind Direction: "));        Serial.print(sw.getWindDirection());	Serial.print(F("º "));
+				Serial.print(F(" Wind Direction: "));        Serial.print(sw.getWindDirection());	Serial.println(F("º "));
 	      Serial.print(F(" Battery Voltage: " ));       		 			Serial.print(voltages[minutes-1]);	Serial.print(F("V "));
 				#ifdef ENABLE_INA
 				Serial.print(F(" Battery Voltages (from INA): " ));       		 			Serial.print(voltages2[minutes-1]);	Serial.print(F("V "));
@@ -368,10 +368,10 @@ sw(wind_speed, WDIR_CALIBRATION, wind_dir)
 			Serial.print(F(" Temperature: "));                     Serial.print(temperature/minutes);		Serial.print(F("ºC "));
 			Serial.print(F(" Humidity: "));                     Serial.print(humidity/minutes);	Serial.print(F("% "));
 			Serial.print(F(" Pressure: "));                     Serial.print(pressure/minutes);	Serial.println(F("KPa "));
-			Serial.print(F(" Amount of Rain: "));           Serial.print(amountRain);	Serial.print(F("mm "));
+			Serial.print(F(" Rain: "));           Serial.print(amountRain);	Serial.println(F("mm "));
 			Serial.print(F(" Wind Speed: "));        Serial.print(windSpeed);	Serial.print(F("km/h "));
 			Serial.print(F(" Wind Gust: "));        Serial.print(windGust);	Serial.print(F("km/h "));
-			Serial.print(F(" Wind Direction: "));        Serial.print(windDirection);	Serial.print(F("º "));
+			Serial.print(F(" Wind Direction: "));        Serial.print(windDirection);	Serial.println(F("º "));
 			Serial.print(F(" Battery Voltage: " ));       		 			Serial.print(batteryVoltage/minutes);	Serial.print(F("V "));
 				#ifdef ENABLE_INA
 				Serial.print(F(" Battery Voltages (from INA): " ));       		 			Serial.print(batteryVoltage2/minutes);	Serial.print(F("V "));
@@ -470,7 +470,7 @@ sw(wind_speed, WDIR_CALIBRATION, wind_dir)
 	 						Serial.println();
 	 						Serial.println(F("########## Rain Interrupt ##########"));
 	 				    Serial.print(F(" RainClicks (in period): "));    Serial.print(sr.getRainClicks());  Serial.println();
-							Serial.print(F(" Amont Of Rain: "));  Serial.print(sr.getRain()); Serial.println(F("mm "));
+							Serial.print(F(" Rain: "));  Serial.print(sr.getRain()); Serial.println(F("mm "));
 							Serial.println(F("####################################"));
 
 				   sr.clearRainControl();
